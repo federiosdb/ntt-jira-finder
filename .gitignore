@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+
+# Environment variables
+.env
+
+# IDEs and OS metadata
+.vscode/
+.idea/
+Thumbs.db
