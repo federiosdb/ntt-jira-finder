@@ -100,10 +100,10 @@ ntt-jira-finder/
 
 ## 🧭 Example Configuration
 
-| Key | Jira Base URL |
-|-----|----------------|
-| MAG | https://portail.agir.client.com/browse/ |
-| ABC | https://mycompanyjira.atlassian.net/browse/ |
+| Project | Key | Jira Base URL |
+| --------|-----|----------------|
+| ProjectMag | MAG | https://portail.agir.client.com/browse/ |
+| ProjectAbc | ABC | https://mycompanyjira.atlassian.net/browse/ |
 
 When searching for:
 ```
