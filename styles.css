@@ -17,13 +17,13 @@ html, body {
   background: var(--bg);
 }
 
-/* Popup (por defecto 320px) */
+/* Popup (by default 320px) */
 .container {
   padding: 14px;
   width: 320px;
 }
 
-/* Options (ancho cómodo para ver URIs largas) */
+/* Options (min width URIs) */
 .container--options {
   width: 960px;
   max-width: 100%;
@@ -77,7 +77,7 @@ input.input.project {
 }
 .btn.secondary { background: #f6f8fb; color: var(--fg); }
 
-/* Botón de cierre arriba derecha */
+/* Close button */
 .close {
   background: transparent;
   border: none;
@@ -85,6 +85,13 @@ input.input.project {
   cursor: pointer;
   color: var(--muted);
   line-height: 1;
+}
+.close:hover {
+  font-weight: 700;
+  color: var(--fg);
+  text-shadow: 0 4px 6px rgba(0, 0, 0, 0.08),
+              0 0 6px rgba(0, 82, 204, 0.25);
+  transition: all 0.2s ease;
 }
 
 /* ===== Configuration styles ===== */
@@ -94,9 +101,9 @@ input.input.project {
   display: grid;
   grid-template-columns:
     minmax(220px, 1fr)   /* Project */
-    minmax(140px, 0.7fr) /* Key (prefijo largo visible) */
-    minmax(420px, 2fr)   /* Base URI (más ancho) */
-    auto;                /* botón borrar */
+    minmax(140px, 0.7fr) /* Key */
+    minmax(420px, 2fr)   /* Base URL */
+    auto;                /* Delete button */
   gap: 12px;
   align-items: end;
   margin-bottom: 12px;
@@ -114,10 +121,10 @@ input.input.project {
   flex-direction: column;
 }
 
-/* Asegurar que la URI aprovecha su columna */
+/* Ensure URI is full collumn */
 .field-uri .input { width: 100%; }
 
-/* Botón borrar */
+/* Delete Button */
 .btn-delete {
   background: #f8f8f8;
   border: 1px solid #ddd;
@@ -141,7 +148,7 @@ input.input.project {
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* Iconos en botones */
+/* Buttons Icons */
 .btn .icon { margin-right: 6px; font-weight: 700; }
 
 /* === Success message after save === */
@@ -163,7 +170,7 @@ input.input.project {
   opacity: 1;
 }
 
-/* Header del popup */
+/* Header of popup */
 .popup-header {
   display: flex;
   align-items: center;
@@ -175,11 +182,11 @@ input.input.project {
 .brand img { width: 18px; height: 18px; border-radius: 4px; }
 .brand img.main-logo { width: 100px; height: 100px; border-radius: 4px; }
 
-/* Botón engranaje */
+/* Config Button */
 .btn-gear {
-  position: absolute;
+  /*position: absolute;
   right: 42px;
-  top: 8px;
+  top: 8px;*/
   width: 30px;
   height: 30px;
   border-radius: 999px;
@@ -201,8 +208,9 @@ input.input.project {
 .btn-gear:hover {
   background: #f6f8fb;
   border-color: #d9e2ef;
+  transform: rotate(20deg);
+  transition: all 0.2s ease;
 }
-
 
 .btn-gear .gear-icon {
   width: 18px;
@@ -217,26 +225,64 @@ input.input.project {
   color: var(--primary);
 }
 
-/* Icono de búsqueda dentro del botón Search */
+/* Bell button (header) */
+.btn-bell{
+  /*position: absolute;
+  right: 72px;
+  top: 6px;*/
+  width: 30px; height: 30px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer; padding: 0;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  transition: all .2s ease;
+}
+.btn-bell:hover { background: #f6f8fb; border-color: #d9e2ef; }
+
+.bell-icon{
+  width: 18px; height: 18px; display:block;
+  fill: currentColor; color: var(--muted);
+  shape-rendering: geometricPrecision;
+  transition: color .2s ease;
+}
+.btn-bell:hover .bell-icon { color: var(--primary); }
+
+.bell-icon.active{
+  opacity: 1;
+  animation: bellDing 4s ease-in-out infinite;
+}
+
+/* Movement 10s */
+@keyframes bellDing{
+  0%, 96%{ transform: rotate(0deg); }
+  97%{ transform: rotate(12deg); }
+  98%{ transform: rotate(-10deg); }
+  99%{ transform: rotate(6deg); }
+  100%{ transform: rotate(0deg); }
+}
+
+/* Search Button Icon */
 .btn .icon-search {
   display: inline-flex;
   margin-right: 8px;
 }
 .btn .icon-search svg {
   display: block;
-  fill: currentColor; /* usa el color del botón */
+  fill: currentColor;
 }
 
-/* Badge de versión abajo derecha */
+/* Version text */
 .version-badge {
   margin-top: 6px;
   text-align: right;
   font-size: 12px;
-  color: #a8b0bd; /* gris claro */
+  color: #a8b0bd;
   user-select: none;
 }
 
-/* Responsive: en pantallas estrechas, apilar */
+/* Responsive: Mobile view */
 @media (max-width: 900px) {
   .container--options { width: 100%; }
   .row-config { grid-template-columns: 1fr; }
