@@ -12,7 +12,7 @@ It helps teams working with several Jira servers (clients, environments, or proj
 
 ---
 
-## 🚀 Features (v1.0.5)
+## 🚀 Features (v1.0.6)
 
 ### 🔍 Fast Issue Lookup
 - Enter any Jira issue key (e.g., `JAG-6660`) to open it instantly.
@@ -122,10 +122,10 @@ JAG-6660, ABC-1001
 
 ---
 
-## ✨ Version  updated status (v1.0.5)
-- Added new rebranding
-- News! features section
-- New styles :)
+## ✨ Version  updated status (v1.0.6)
+- **Context menu – NEW** (v1.0.6):
+-  Select text on any page and right-click → **Open Jira issue(s)**.  
+  Works with multiple keys in the selection.
 
 ---
 
