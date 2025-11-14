@@ -173,12 +173,13 @@ input.input.project {
 
 .brand { display: inline-flex; align-items: center; gap: 8px; }
 .brand img { width: 18px; height: 18px; border-radius: 4px; }
+.brand img.main-logo { width: 100px; height: 100px; border-radius: 4px; }
 
 /* Botón engranaje */
 .btn-gear {
   position: absolute;
-  right: 10px;
-  top: 10px;
+  right: 42px;
+  top: 8px;
   width: 30px;
   height: 30px;
   border-radius: 999px;
