@@ -4,7 +4,7 @@ async function getMappings() {
   });
 }
 
-// Parser: accept MAG-123 (, ; \n \t)
+// Parser: accept JAG-123 (, ; \n \t)
 function parseKeys(raw) {
   const matches = (raw || "")
     .toUpperCase()
