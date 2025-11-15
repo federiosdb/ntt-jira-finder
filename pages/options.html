@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Configuration – Jira Quick Finder</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <div class="page">
+    <!-- Hero  -->
+    <header class="hero">
+      <div class="hero-overlay">
+        <h1 class="hero-title">Configuration</h1>
+        <p class="hero-subtitle">Map Jira prefixes to Base URIs and manage your projects.</p>
+      </div>
+    </header>
+
+    <!-- Center content -->
+    <main class="container container--options card">
+      <h2 class="section-title">Projects & Prefixes</h2>
+
+      <div id="list"></div>
+
+      <div class="toolbar">
+        <button id="btnAdd" class="btn secondary">
+          <span class="icon">➕</span> Add
+        </button>
+        <button id="btnSave" class="btn">
+          <span class="icon">💾</span> Save
+        </button>
+        <button id="btnCloseTab" class="btn secondary">
+          <span class="icon">✖</span> Close Tab
+        </button>
+      </div>
+
+      <div id="saveMessage" class="save-message"></div>
+    </main>
+
+    <footer class="footer">
+      <span>Jira Quick Finder</span>
+      <span class="dot">•</span>
+      <span id="versionFooter"></span>
+    </footer>
+  </div>
+
+  <template id="tplRow">
+    <div class="row-config">
+      <div class="field">
+        <label class="label">Project</label>
+        <input type="text" class="input project" placeholder="e.g. Client Support" />
+      </div>
+      <div class="field">
+        <label class="label">Key</label>
+        <input type="text" class="input pref" placeholder="JAG" />
+      </div>
+      <div class="field field-uri">
+        <label class="label">Base URI</label>
+        <input type="url" class="input url" placeholder="https://.../browse/" />
+      </div>
+      <button class="btn-delete" title="Delete">🗑️</button>
+    </div>
+  </template>
+
+  <script src="/js/options.js"></script>
+</body>
+</html>

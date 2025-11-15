@@ -1,6 +1,6 @@
 # Jira Quick Finder
 
-![Jira Quick Finder](icons/logo-wallpaper.png)
+![Jira Quick Finder](images/logo-wallpaper.png)
 
 ---
 
@@ -34,7 +34,7 @@ It helps teams working with several Jira servers (clients, environments, or proj
 ### ⚡ Keyboard Shortcuts
 Two productivity boosters are built-in:
 - **Alt + J** → Open the extension popup.
-- **Alt + Shift + J** → Instantly open issues from the clipboard text.
+- **Ctrl + Shift + J** → Instantly open issues from the clipboard text.
 
 > Example: copy “JAG-9999” and press **Alt+Shift+J** → the issue opens directly!
 
@@ -80,20 +80,34 @@ Two productivity boosters are built-in:
 ## 🧑‍💻 File Structure
 
 ```
-ntt-jira-finder/
-├── manifest.json
-├── popup.html
-├── popup.js
-├── options.html
-├── options.js
-├── background.js
-├── styles.css
-└── icons/
-    ├── picture.png     ← Main cover iJAGe
+jira-quick-finder/
+├── css/
+    └── styles.css
+├── icons/
+    ├── picture.png
     ├── icon16.png
     ├── icon32.png
     ├── icon48.png
-    └── icon128.png
+    ├── icon128.png
+    ├── icon256.png
+    └── icon512.png
+├── images
+    ├── logo-wallpaper.png
+    ├── logo.png
+    └── picture.png
+├── js/
+    ├── background.js
+    ├── news.js
+    ├── options.js
+    └── popup.js
+├── pages
+    ├── news.html
+    ├── options.html
+    └── popup.html
+└── manifest.json
+└── README.md
+└── .gitignore
+
 ```
 
 ---
@@ -122,10 +136,10 @@ JAG-6660, ABC-1001
 
 ---
 
-## ✨ Version  updated status (v1.0.6)
-- **Context menu – NEW** (v1.0.6):
--  Select text on any page and right-click → **Open Jira issue(s)**.  
-  Works with multiple keys in the selection.
+## ✨ Version  updated status (v1.0.7)
+- **Context menu – NEW** (v1.0.7):
+- Full new styles
+- Full new structured files management
 
 ---
 

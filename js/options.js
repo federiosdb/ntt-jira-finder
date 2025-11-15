@@ -74,6 +74,9 @@ async function save() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  const v = chrome.runtime.getManifest().version;
+  const vf = document.getElementById('versionFooter');
+  if (vf) vf.textContent = `Beta v${v}`;
   document.getElementById('btnAdd').addEventListener('click', () => createRow());
   document.getElementById('btnSave').addEventListener('click', save);
   document.getElementById('btnCloseTab').addEventListener('click', () => window.close());

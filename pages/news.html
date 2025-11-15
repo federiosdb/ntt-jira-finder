@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>News – Jira Quick Finder</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div class="hero-overlay">
+        <h1 class="hero-title">News</h1>
+        <p class="hero-subtitle">Release notes and what’s new.</p>
+      </div>
+    </header>
+
+    <main class="container card news-container">
+      <article class="news-item">
+        <h3>v1.0.7</h3>
+        <ul>
+          <li>Full new styles.</li>
+          <li>Full new structured files management.</li>
+        </ul>
+      </article>
+
+      <article class="news-item">
+        <h3>v1.0.6</h3>
+        <ul>
+          <li>Context menu: right-click → <em>Open Jira issue(s)</em>.</li>
+          <li>Popup polish (rounded, animation, icons).</li>
+        </ul>
+      </article>
+
+      <article class="news-item">
+        <h3>v1.0.5</h3>
+        <ul>
+          <li>Keyboard shortcuts (Alt+J / Alt+Shift+J).</li>
+          <li>Options UI labels + success toast.</li>
+        </ul>
+      </article>
+
+      <div class="toolbar">
+        <button class="btn" id="btnOpenOptions">Open Configuration</button>
+        <button class="btn secondary" id="btnCloseNews">
+           <span class="icon">✖</span>Close Tab
+        </button>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <span>Jira Quick Finder</span>
+      <span class="dot">•</span>
+      <span id="versionFooter"></span>
+    </footer>
+  </div>
+  <script src="/js/news.js"></script>
+</body>
+</html>
