@@ -2,6 +2,15 @@
 // ============== HISTORY BADGE ============
 // =========================================
 const KEY_HISTORY = 'searchHistory';
+const LIFETIME_KEY = 'searchLifetimeCount';
+
+async function getLifetimeCount() {
+  return new Promise((resolve) => {
+    chrome.runtime.sendMessage({ type: "GET_LIFETIME_COUNT" }, (response) => {
+      resolve(Number(response?.lifetime || 0));
+    });
+  });
+}
 
 function suffixEmoji(count) {
   if (count === 100) return ' 💯';
@@ -24,10 +33,8 @@ async function updateHistoryBadge() {
   const a = wrapper?.querySelector('.history-link');
   if (!wrapper || !a) return;
 
-  const hist = await loadHistory();
-  const count = hist.count || 0;
-  a.textContent = `${count} Issue/s searched${suffixEmoji(count)}`;
-  // Importante: ruta sin "/" inicial
+  const lifetime = await getLifetimeCount();
+  a.textContent = `${lifetime} Issue/s searched${suffixEmoji(lifetime)}`;
   a.href = chrome.runtime.getURL('src/pages/history.html');
   a.target = '_blank';
   a.rel = 'noreferrer noopener';

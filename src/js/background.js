@@ -1,4 +1,16 @@
 // ================================
+// ====== Lifetime counter ========
+// ================================
+const LIFETIME_KEY = "searchLifetimeCount";
+
+function incLifetime(n = 1) {
+  chrome.storage.local.get({ [LIFETIME_KEY]: 0 }, (res) => {
+    const next = Number(res[LIFETIME_KEY] || 0) + (Number(n) || 1);
+    chrome.storage.local.set({ [LIFETIME_KEY]: next });
+  });
+}
+
+// ================================
 // ========== CLIPBOARD ===========
 // ================================
 async function readClipboardFromActiveTab() {
@@ -138,6 +150,8 @@ const pendingTitleMap = new Map(); // tabId -> { key, url }
 async function openIssuesFromBg(keys) {
   if (!keys?.length) return;
 
+  incLifetime(1);
+
   const mappings = await getMappings();
   const map = new Map();
   for (const m of mappings) {
@@ -155,7 +169,7 @@ async function openIssuesFromBg(keys) {
       notFound.push(key);
       continue;
     }
-
+    incLifetime(1);
     const url = base + key;
     const tab = await chrome.tabs.create({ url });
     await recordSearchBg({ key, url, title: '' });
@@ -296,4 +310,14 @@ chrome.omnibox.onInputEntered.addListener(async (text, disposition) => {
 
   // If no keys, open Options as fallback
   chrome.runtime.openOptionsPage();
+});
+
+// ===== Expose by message =====
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  if (msg?.type === "GET_LIFETIME_COUNT") {
+    chrome.storage.local.get({ [LIFETIME_KEY]: 0 }, (res) => {
+      sendResponse({ lifetime: Number(res[LIFETIME_KEY] || 0) });
+    });
+    return true; // <-- necesario para respuesta asíncrona
+  }
 });

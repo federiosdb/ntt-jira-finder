@@ -473,3 +473,9 @@ a.history-link{
   .hist-row { grid-template-columns: minmax(120px, auto) 1fr 40px; }
   .hist-date { grid-column: 1 / span 2; text-align: left; margin-top: 6px; }
 }
+
+p#lifetimeInfo{
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+}

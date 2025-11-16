@@ -1,5 +1,14 @@
 const KEY_HISTORY = 'searchHistory'; // { count:number, items:[{key,url,title,lastAccessTs}] }
 
+// Ask to background counter lifetime
+async function getLifetimeCount() {
+  return new Promise((resolve) => {
+    chrome.runtime.sendMessage({ type: "GET_LIFETIME_COUNT" }, (response) => {
+      resolve(Number(response?.lifetime || 0));
+    });
+  });
+}
+
 function timeFmt(ts) {
   try { return new Date(ts).toLocaleString(); } catch { return ''; }
 }
@@ -134,12 +143,20 @@ function render(items) {
 document.addEventListener('DOMContentLoaded', async () => {
   const v = chrome.runtime.getManifest().version;
   const vf = document.getElementById('versionFooter');
+
   if (vf) vf.textContent = `v${v}`;
+
+  const lifetime = await getLifetimeCount();
+  const el = document.getElementById('lifetimeInfo');
+  if (el) el.textContent = `Lifetime searches on this device: ${lifetime.toLocaleString()}`;
 
   document.getElementById('btnExport').addEventListener('click', exportHistoryCsv);
   document.getElementById('btnCloseTab').addEventListener('click', () => window.close());
   document.getElementById('btnClearAll').addEventListener('click', async () => {
-    await saveHistory({ count: 0, items: [] });
+    const hist = await loadHistory(); // {count, items}
+    // preserva count, vacía items
+    const newHist = { ...hist, items: [] };
+    await saveHistory(newHist);
     render([]);
     toast('History cleared 🧹');
   });
