@@ -19,7 +19,7 @@ async function readClipboardFromActiveTab() {
     const val = results?.[0]?.result || null;
     return val;
   } catch (e) {
-    // No se puede inyectar (p. ej. chrome://, Web Store, PDF viewer, etc.)
+    // Not possible to read(ex. chrome://, Web Store, PDF viewer, etc.)
     return null;
   }
 }
@@ -33,10 +33,10 @@ chrome.commands.onCommand.addListener(async (cmd) => {
   if (cmd === "open_from_clipboard") {
     const text = await readClipboardFromActiveTab();
     if (text) {
-      // Envía el contenido al popup (que usará su lógica de parseo/apertura)
+      // Send to popup if clipboard has text
       chrome.runtime.sendMessage({ type: "OPEN_KEYS", payload: text });
     } else {
-      // Fallback: abre el popup para que el usuario pegue manualmente
+      // Fallback: openb popup directly
       chrome.action.openPopup();
     }
   }

@@ -58,7 +58,7 @@ chrome.runtime.onMessage.addListener((msg) => {
 document.addEventListener('DOMContentLoaded', () => {
   const input = document.getElementById('issueInput');
 
-    // Versión dinámica en la esquina inferior derecha
+    // Version in footer
   const versionEl = document.getElementById('versionBadge');
   try {
     const { version } = chrome.runtime.getManifest() || {};
