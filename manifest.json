@@ -26,7 +26,7 @@
     },
     "open_from_clipboard": {
       "suggested_key": {
-        "default": "Ctrl+Shift+J"
+        "default": "Alt+Shift+J"
       },
       "description": "Open Jira issues from clipboard"
     }
