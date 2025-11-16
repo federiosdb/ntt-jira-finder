@@ -1,6 +1,6 @@
 # Jira Quick Finder
 
-![Jira Quick Finder](images/logo-wallpaper.png)
+![Jira Quick Finder](/src/images/logo-wallpaper.png)
 
 ---
 
