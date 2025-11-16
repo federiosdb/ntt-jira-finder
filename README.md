@@ -104,9 +104,10 @@ jira-quick-finder/
     ├── news.html
     ├── options.html
     └── popup.html
+└── .gitignore
+└── LICENSE
 └── manifest.json
 └── README.md
-└── .gitignore
 
 ```
 
@@ -146,8 +147,8 @@ JAG-6660, ABC-1001
 ## 📬 Contact
 
 For questions, improvements, or support, please contact:  
-**Fede Ríos – NTT DATA**  
-_Project Manager | Scrum Master | Delivery Manager_  
+**Fede Ríos**  
+_Project Manager | Scrum Master | Delivery Manager | Full Stack_  
 
 ---
 
