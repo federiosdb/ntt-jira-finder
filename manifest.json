@@ -1,15 +1,15 @@
 {
   "manifest_version": 3,
   "name": "Jira Quick Finder",
-  "description": "Search issues from multiple Jira instances by key (e.g., JAG-6660) with one click or by pressing Enter. Configure prefix → base URL. More Info: Fede Ríos",
+  "description": "Search issues very quick from multiple Jira instances by key (e.g., JAG-6660) with one click or by pressing Enter.",
   "version": "1.0.10",
   "action": {
     "default_title": "Jira Quick Finder",
     "default_icon": {
-      "16": "/src/icons/icon16.png",
-      "32": "/src/icons/icon32.png",
-      "48": "/src/icons/icon48.png",
-      "128": "/src/icons/icon128.png"
+      "16": "src/icons/icon16.png",
+      "32": "src/icons/icon32.png",
+      "48": "src/icons/icon48.png",
+      "128": "src/icons/icon128.png"
     },
     "default_popup": "/src/pages/popup.html"
   },
@@ -25,13 +25,13 @@
       "suggested_key": {
         "default": "Alt+J"
       },
-      "description": "Open Jira Quick Finder popup"
+      "description": "Open popup"
     },
     "open_from_clipboard": {
       "suggested_key": {
         "default": "Alt+Shift+J"
       },
-      "description": "Open Jira issues from clipboard"
+      "description": "Open from clipboard"
     }
   },
   "options_ui": {
@@ -39,9 +39,9 @@
     "open_in_tab": true
   },
   "icons": {
-    "16": "/src/icons/icon16.png",
-    "32": "/src/icons/icon32.png",
-    "48": "/src/icons/icon48.png",
-    "128": "/src/icons/icon128.png"
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
   }
 }

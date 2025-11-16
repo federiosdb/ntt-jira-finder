@@ -2,10 +2,16 @@
 .DS_Store
 
 # Internal media files
-media-internal/
+0-media-internal/
 
 # Environment variables
 .env
+
+# Icons for store
+icons/
+
+# Zip files
+*.zip
 
 # IDEs and OS metadata
 .vscode/
