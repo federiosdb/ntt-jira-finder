@@ -204,3 +204,96 @@ chrome.runtime.onMessage.addListener((msg) => {
     openIssuesFromBg(msg.payload);
   }
 });
+
+// =========================================
+// =============== OMNIBOX =================
+// =========================================
+// Keyword defined in manifest: "jira"
+// Examples of input:
+//  - jira MAG-1234
+//  - jira MAG-1234,MAG-1235
+//  - jira foo bar   (without keys -> sugerences / open Options)
+
+chrome.omnibox.setDefaultSuggestion({
+  description: 'Type Jira keys (e.g., MAG-1234 or multiple: MAG-1,MAG-2).'
+});
+
+// Formatea descripción segura para omnibox (sin HTML)
+function omniDesc(txt) {
+  return txt.replace(/[<>]/g, '');
+}
+
+chrome.omnibox.onInputChanged.addListener(async (text, suggest) => {
+  const raw = (text || '').trim();
+  const keys = parseKeys(raw);
+  const mappings = await getMappings();
+  const map = new Map();
+  for (const m of mappings) {
+    if (!m?.prefix || !m?.baseUrl) continue;
+    map.set(m.prefix.toUpperCase(), m.baseUrl.endsWith('/') ? m.baseUrl : m.baseUrl + '/');
+  }
+
+  const suggestions = [];
+
+  if (keys.length) {
+    // Recomend open by URL (if mapping)
+    const unique = Array.from(new Set(keys)).slice(0, 5);
+    for (const key of unique) {
+      const prefix = extractPrefix(key);
+      const base = prefix ? map.get(prefix.toUpperCase()) : null;
+      const url = base ? (base + key) : null;
+      suggestions.push({
+        content: key, // Push Enter on the recomendation, send the content (key)
+        description: omniDesc(
+          url ? `Open ${key} → ${url}` : `Missing mapping for ${key} (open Options to configure)`
+        )
+      });
+    }
+
+    // COmpacted recomendation to open all
+    const joined = unique.join(',');
+    suggestions.unshift({
+      content: joined,
+      description: omniDesc(`Open ${unique.length} issue(s): ${joined}`)
+    });
+  } else if (raw.length) {
+    // No kjeys detected: open Options
+    suggestions.push({
+      content: '__OPEN_OPTIONS__',
+      description: omniDesc('No valid keys detected. Open Options to configure mappings.')
+    });
+  } else {
+    // Empty input: hint to open popup
+    suggestions.push({
+      content: '__OPEN_POPUP__',
+      description: omniDesc('Hint: type a Jira key like MAG-1234 or multiple separated by comma.')
+    });
+  }
+
+  suggest(suggestions);
+});
+
+chrome.omnibox.onInputEntered.addListener(async (text, disposition) => {
+  const raw = (text || '').trim();
+
+  // Special action onInputChanged
+  if (raw === '__OPEN_OPTIONS__') {
+    chrome.runtime.openOptionsPage();
+    return;
+  }
+  if (raw === '__OPEN_POPUP__') {
+    try { await chrome.action.openPopup(); } catch {}
+    return;
+  }
+
+  const keys = parseKeys(raw);
+
+  if (keys.length) {
+    // Open ALWAYS from bg
+    await openIssuesFromBg(keys);
+    return;
+  }
+
+  // If no keys, open Options as fallback
+  chrome.runtime.openOptionsPage();
+});
