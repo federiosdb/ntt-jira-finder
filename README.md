@@ -147,7 +147,7 @@ JAG-6660, ABC-1001
 - **History log – NEW**:
   - Full new ferature
   - Log of the last 20 search
-  - Delte by row or full clear
+  - Delete by row or full clear
   - Download the search history as CSV
 
 ---
