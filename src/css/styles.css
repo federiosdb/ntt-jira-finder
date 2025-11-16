@@ -393,6 +393,11 @@ a.history-link{
   text-decoration: none;
 }
 
+a.history-link:hover{
+  color: var(--primary);
+  text-decoration: underline;
+}
+
 /* =======================
    History (clean grid)
    ======================= */
