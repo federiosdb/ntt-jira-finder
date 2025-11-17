@@ -7,9 +7,6 @@
 # Environment variables
 .env
 
-# Icons for store
-icons/
-
 # Zip files
 *.zip
 
