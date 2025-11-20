@@ -107,6 +107,8 @@ jira-quick-finder/
 ├── js/
     ├── history
         └── history.js
+    ├── background.js
+    ├── content_script.js
     ├── news.js
     ├── options.js
     └── popup.js
