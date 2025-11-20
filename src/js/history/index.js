@@ -1,4 +1,4 @@
-const KEY_HISTORY = 'searchHistory'; // { count:number, items:[{key,url,title,lastAccessTs, pinned:boolean, note:string}] }
+const KEY_HISTORY = 'searchHistory'; // { count:number, items:[{key,url,title,lastAccessTs, pinned:boolean, note:string, alarm:number}] }
 
 // Ask to background counter lifetime
 async function getLifetimeCount() {
@@ -66,7 +66,8 @@ async function exportHistoryCsv() {
     "Last Accessed (ISO)",
     "Last Accessed (Local)",
     "Pinned",
-    "Note"
+    "Note",
+    "Alarm Set"
   ];
 
   const rows = items.map(it => {
@@ -80,7 +81,8 @@ async function exportHistoryCsv() {
       csvEscape(iso),
       csvEscape(local),
       csvEscape(it.pinned ? "Yes" : "No"),
-      csvEscape(it.note || "")
+      csvEscape(it.note || ""),
+      csvEscape(it.alarm ? "Yes" : "No")
     ].join(",");
   });
 
@@ -161,6 +163,8 @@ function render(items) {
       if (isHidden) {
         noteContainer.classList.remove('hidden');
         noteInput.focus();
+        // Hide alarm if open
+        node.querySelector('.alarm-container').classList.add('hidden');
       } else {
         noteContainer.classList.add('hidden');
       }
@@ -181,6 +185,90 @@ function render(items) {
         }
         toast('Note saved ✅');
       }
+    });
+
+    // Alarm Logic
+    const btnAlarm = node.querySelector('.btn-alarm');
+    const alarmContainer = node.querySelector('.alarm-container');
+    const alarmDate = node.querySelector('.alarm-date');
+    const alarmRepeats = node.querySelector('.alarm-repeats');
+    const btnSaveAlarm = node.querySelector('.btn-save-alarm');
+    const btnCancelAlarm = node.querySelector('.btn-cancel-alarm');
+
+    if (it.alarm) {
+      btnAlarm.classList.add('active');
+      // Pre-fill if we had stored the timestamp, but for now just show active
+    }
+
+    btnAlarm.addEventListener('click', () => {
+      const isHidden = alarmContainer.classList.contains('hidden');
+      if (isHidden) {
+        alarmContainer.classList.remove('hidden');
+        // Hide note if open
+        noteContainer.classList.add('hidden');
+
+        // Default to now + 1 min
+        const now = new Date();
+        now.setMinutes(now.getMinutes() + 1);
+        now.setSeconds(0, 0);
+        // Format for datetime-local: YYYY-MM-DDTHH:mm
+        const iso = now.toLocaleString('sv').replace(' ', 'T').slice(0, 16);
+        alarmDate.value = iso;
+      } else {
+        alarmContainer.classList.add('hidden');
+      }
+    });
+
+    btnSaveAlarm.addEventListener('click', async () => {
+      const ts = new Date(alarmDate.value).getTime();
+      const repeats = parseInt(alarmRepeats.value, 10);
+
+      if (isNaN(ts) || ts <= Date.now()) {
+        alert('Please select a future time.');
+        return;
+      }
+
+      // Send to background
+      chrome.runtime.sendMessage({
+        type: "SET_ALARM",
+        payload: {
+          key: it.key,
+          timestamp: ts,
+          repeats: repeats,
+          title: cleanTitle,
+          note: it.note
+        }
+      }, async (res) => {
+        if (res?.success) {
+          const hist = await loadHistory();
+          const target = (hist.items || []).find(x => x.key === it.key);
+          if (target) {
+            target.alarm = ts; // Store timestamp as flag
+            await saveHistory(hist);
+            refreshList();
+            toast('Alarm set ⏰');
+          }
+        }
+      });
+    });
+
+    btnCancelAlarm.addEventListener('click', async () => {
+      // Send to background
+      chrome.runtime.sendMessage({
+        type: "CLEAR_ALARM",
+        payload: { key: it.key }
+      }, async (res) => {
+        if (res?.success) {
+          const hist = await loadHistory();
+          const target = (hist.items || []).find(x => x.key === it.key);
+          if (target) {
+            delete target.alarm;
+            await saveHistory(hist);
+            refreshList();
+            toast('Alarm removed 🗑️');
+          }
+        }
+      });
     });
 
     // Delete row

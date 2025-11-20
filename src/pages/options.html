@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Configuration – Jira Quick Finder</title>
   <link rel="stylesheet" href="/src/css/styles.css" />
 </head>
+
 <body>
   <div class="page">
     <!-- Hero  -->
@@ -17,6 +19,18 @@
 
     <!-- Center content -->
     <main class="container container--options card">
+      <h2 class="section-title">General Settings</h2>
+      <div class="setting-row">
+        <div class="setting-info">
+          <h3>Smart Links</h3>
+          <p>Automatically detect Jira keys (e.g., JAG-1234) on any web page and convert them into clickable links.</p>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="toggleSmartLinks">
+          <span class="slider round"></span>
+        </label>
+      </div>
+
       <h2 class="section-title">Projects & Prefixes</h2>
 
       <div id="list"></div>
@@ -63,4 +77,5 @@
 
   <script src="/src/js/options.js"></script>
 </body>
+
 </html>

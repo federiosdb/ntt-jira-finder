@@ -318,4 +318,89 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     });
     return true; // <-- ASYNC RESPONSE
   }
+
+  if (msg?.type === "SET_ALARM") {
+    const { key, timestamp, repeats, title, note } = msg.payload;
+    const alarmName = `alarm-${key}`;
+
+    // Store alarm metadata
+    chrome.storage.local.set({
+      [alarmName]: { key, title, note, repeats: Number(repeats) || 0 }
+    }, () => {
+      chrome.alarms.create(alarmName, { when: timestamp });
+      sendResponse({ success: true });
+    });
+    return true;
+  }
+
+  if (msg?.type === "CLEAR_ALARM") {
+    const { key } = msg.payload;
+    const alarmName = `alarm-${key}`;
+    chrome.alarms.clear(alarmName);
+    chrome.storage.local.remove(alarmName);
+    sendResponse({ success: true });
+    return true;
+  }
+});
+
+// ================================
+// =========== ALARMS =============
+// ================================
+chrome.alarms.onAlarm.addListener((alarm) => {
+  if (!alarm.name.startsWith('alarm-')) return;
+
+  console.log('Alarm triggered:', alarm.name);
+
+  chrome.storage.local.get(alarm.name, (res) => {
+    const data = res[alarm.name];
+    if (!data) {
+      console.warn('No data found for alarm:', alarm.name);
+      return;
+    }
+
+    // Show notification
+    const notifId = `jira-alarm-${data.key}-${Date.now()}`;
+    chrome.notifications.create(notifId, {
+      type: "basic",
+      iconUrl: chrome.runtime.getURL("icons/icon48.png"), // Use root icon
+      title: `⏰ Jira Reminder: ${data.key}`,
+      message: `${data.title || 'No title'}\n${data.note ? 'Note: ' + data.note : ''}`,
+      priority: 2
+      // requireInteraction: true // Removed to avoid potential issues on some OS
+    }, (createdId) => {
+      if (chrome.runtime.lastError) {
+        console.error('Notification error:', chrome.runtime.lastError);
+      } else {
+        console.log('Notification created:', createdId);
+      }
+    });
+
+    // Handle repeats
+    if (data.repeats > 0) {
+      const nextRepeats = data.repeats - 1;
+      chrome.storage.local.set({
+        [alarm.name]: { ...data, repeats: nextRepeats }
+      }, () => {
+        // Schedule next alarm in 1 minute
+        chrome.alarms.create(alarm.name, { delayInMinutes: 1 });
+      });
+    } else {
+      // Clean up if no repeats left
+      chrome.storage.local.remove(alarm.name);
+    }
+  });
+});
+
+chrome.notifications.onClicked.addListener(async (notifId) => {
+  if (!notifId.startsWith('jira-alarm-')) return;
+
+  // Extract key from ID: jira-alarm-KEY-TIMESTAMP
+  const parts = notifId.split('-');
+  if (parts.length >= 3) {
+    const key = `${parts[2]}-${parts[3]}`; // Reconstruct key (e.g. JAG-1234)
+    // Or simpler: we can store the URL in the alarm data if we want to be precise, 
+    // but openIssuesFromBg handles logic well.
+    await openIssuesFromBg([key]);
+  }
+  chrome.notifications.clear(notifId);
 });

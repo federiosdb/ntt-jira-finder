@@ -20,6 +20,13 @@
   "omnibox": { 
     "keyword": "jira"
   },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/js/content_script.js"],
+      "run_at": "document_idle"
+    }
+  ],
   "commands": {
     "open_popup": {
       "suggested_key": {

@@ -24,8 +24,13 @@ function normalizeBase(url) {
 }
 
 async function load() {
-  chrome.storage.sync.get({ mappings: [] }, ({ mappings }) => {
+  chrome.storage.sync.get({ mappings: [], smartLinksEnabled: false }, (res) => {
+    // Load Smart Links toggle
+    const toggle = document.getElementById('toggleSmartLinks');
+    if (toggle) toggle.checked = res.smartLinksEnabled;
+
     list.innerHTML = '';
+    const mappings = res.mappings;
     if (Array.isArray(mappings) && mappings.length) {
       // Compatibility: if no exists 'project', keep empty
       for (const m of mappings) {
@@ -64,7 +69,9 @@ async function save() {
     mappings.push({ project, prefix, baseUrl });
   }
 
-  await chrome.storage.sync.set({ mappings });
+  const smartLinksEnabled = document.getElementById('toggleSmartLinks').checked;
+
+  await chrome.storage.sync.set({ mappings, smartLinksEnabled });
 
   // Show saved message
   const msg = document.getElementById('saveMessage');
