@@ -22,3 +22,14 @@
 .news-item li {
     margin: 4px 0;
 }
+
+#btnCloseNews {
+    background: var(--btn-close-bg);
+    color: var(--btn-close-fg);
+    border-color: var(--btn-close-border);
+}
+
+#btnCloseNews:hover {
+    background: var(--btn-close-hover-bg);
+    border-color: var(--btn-close-hover-border);
+}

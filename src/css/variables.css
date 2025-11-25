@@ -30,6 +30,13 @@
     --btn-bg: #0b1320;
     --btn-fg: #ffffff;
     --btn-secondary-border: #e6e9ef;
+
+    /* Close Button (Soft Red) */
+    --btn-close-bg: #fff5f5;
+    --btn-close-fg: #c53030;
+    --btn-close-border: #ffe6e6;
+    --btn-close-hover-bg: #ffe6e6;
+    --btn-close-hover-border: #ffc9c9;
 }
 
 [data-theme="dark"] {
@@ -66,4 +73,11 @@
     --news-item-border: #30363d;
     --project-input-bg: #1f2937;
     --setting-row-bg: #161b22;
+
+    /* Close Button Dark Mode */
+    --btn-close-bg: #451a1a;
+    --btn-close-fg: #ffcfcf;
+    --btn-close-border: #632b2b;
+    --btn-close-hover-bg: #592222;
+    --btn-close-hover-border: #7d3838;
 }
